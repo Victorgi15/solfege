@@ -1,7 +1,5 @@
 # Solfège
 
-**Note à note** est un jeu de lecture musicale interactif, en français, qui aide à reconnaître les notes sur une portée et à les retrouver sur un clavier.
-
 ## Jouer
 
 Ouvrez [`index.html`](index.html) dans un navigateur récent. Aucune installation ni compilation n’est nécessaire.
