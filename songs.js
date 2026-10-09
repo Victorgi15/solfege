@@ -152,7 +152,7 @@
       for (let bar = startMeasure; bar < endMeasure; bar++) {
         const localBar = bar - startMeasure;
         const x = startX + localBar * measureWidth;
-        const beatWidth = (measureWidth - 22) / song.beats;
+        const beatWidth = measureWidth / song.beats;
         parts.push(`<line class="bar-line" x1="${x}" x2="${x}" y1="${top}" y2="${top + 120}"/>`);
         for (const hand of ['rh', 'lh']) {
           const handNotes = song.bars[bar][hand];
@@ -235,9 +235,9 @@
     const activeEvents = events.filter(event => beat >= event.beat && beat < event.beat + event.duration);
     const activeIndexes = new Set(activeEvents.map(event => events.indexOf(event)));
     svg.querySelectorAll('.score-event').forEach(node => node.classList.toggle('active', activeIndexes.has(Number(node.dataset.eventIndex))));
-    const beatWidth = (216 - 22) / selectedSong.beats;
     const system = Math.floor(measure / 4);
     const position = selectedSong._positions[system];
+    const beatWidth = position.measureWidth / selectedSong.beats;
     const localBar = measure % 4;
     const x = position.startX + localBar * position.measureWidth + 11 + beatInMeasure * beatWidth;
     const playhead = document.getElementById('scorePlayhead');
@@ -258,7 +258,7 @@
     lastMetronomeBeat = Math.floor(playbackBeat) - 1;
     status.classList.add('playing');
     playButton.textContent = 'Pause';
-    playbackTimer = setInterval(tick, 25);
+    playbackTimer = setInterval(tick, 16);
     tick();
   }
 
