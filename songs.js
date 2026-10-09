@@ -61,6 +61,7 @@
   const tempoInput = document.getElementById('tempoSlider');
   const tempoOutput = document.getElementById('tempoOutput');
   const playButton = document.getElementById('playToggle');
+  const rewindButton = document.getElementById('rewindToStart');
   const metronomeButton = document.getElementById('metronomeToggle');
   let selectedSong = songs[0];
   let events = [];
@@ -252,6 +253,19 @@
     if (status.textContent !== nextStatus) status.textContent = nextStatus;
   }
 
+  function returnToBeginning() {
+    stopPlayback(true);
+    const position = selectedSong._positions[0];
+    const playhead = document.getElementById('scorePlayhead');
+    const x = position.startX + 11;
+    playhead.setAttribute('x1', x);
+    playhead.setAttribute('x2', x);
+    playhead.setAttribute('y1', position.top - 8);
+    playhead.setAttribute('y2', position.top + 128);
+    playhead.style.display = '';
+    status.textContent = 'En pause · Mesure 1 · temps 1';
+  }
+
   function startPlayback() {
     if (playbackBeat >= selectedSong.bars.length * selectedSong.beats) playbackBeat = 0;
     playbackStart = performance.now() - playbackBeat * 60000 / Number(tempoInput.value);
@@ -296,6 +310,7 @@
     if (playbackTimer) stopPlayback(false);
     else startPlayback();
   });
+  rewindButton.addEventListener('click', returnToBeginning);
   tempoInput.addEventListener('input', () => {
     tempoOutput.value = `${tempoInput.value} BPM`;
     if (playbackTimer) playbackStart = performance.now() - playbackBeat * 60000 / Number(tempoInput.value);
