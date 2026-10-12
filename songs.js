@@ -47,7 +47,10 @@
         { rh: rest(4), lh: quarter({ pitch: 57, finger: 3 }, 59, 60, 59) },
         { rh: rest(4), lh: whole({ pitch: 55, finger: 4 }) }
       ]
-    }
+    },
+    { id: 'vif', title: 'Vif', measure: '4/4', beats: 4, tempo: 108, barCount: 8, image: 'Mes morceaux/18 - Vif.png' },
+    { id: 'pas-vite', title: 'Pas vite', measure: '4/4', beats: 4, tempo: 84, barCount: 8, image: 'Mes morceaux/19 - Pas vite.png' },
+    { id: 'avec-douceur', title: 'Avec douceur', measure: '4/4', beats: 4, tempo: 92, barCount: 8, image: 'Mes morceaux/20 - Avec douceur.png' }
   ];
 
   const noteNames = ['Do', 'Ré♭', 'Ré', 'Mi♭', 'Mi', 'Fa', 'Sol♭', 'Sol', 'La♭', 'La', 'Si♭', 'Si'];
@@ -125,6 +128,17 @@
   }
 
   function renderScore(song) {
+    const scoreImage = document.getElementById('scoreImage');
+    if (song.image) {
+      events = [];
+      svg.hidden = true;
+      scoreImage.hidden = false;
+      scoreImage.src = encodeURI(song.image);
+      scoreImage.alt = `Partition de ${song.title}`;
+      return;
+    }
+    scoreImage.hidden = true;
+    svg.hidden = false;
     events = listEvents(song);
     const compact = window.matchMedia('(max-width: 600px)').matches;
     const measuresPerSystem = compact ? 1 : 4;
@@ -283,7 +297,8 @@
     selectedSong = song;
     document.querySelectorAll('.piece-choice').forEach(button => button.classList.toggle('active', button.dataset.song === song.id));
     document.getElementById('pieceTitle').textContent = song.title;
-    document.getElementById('pieceMeta').textContent = `${song.measure} · ${song.bars.length} mesures`;
+    document.getElementById('pieceMeta').textContent = `${song.measure} · ${song.image ? song.barCount : song.bars.length} mesures`;
+    document.querySelector('.piece-panel').classList.toggle('image-only', Boolean(song.image));
     tempoInput.value = song.tempo;
     tempoOutput.value = `${song.tempo} BPM`;
     renderScore(song);
@@ -293,7 +308,7 @@
     const button = document.createElement('button');
     button.className = 'piece-choice';
     button.dataset.song = song.id;
-    button.innerHTML = `<strong>${song.title}</strong><span>${song.measure} · ${song.bars.length} mesures</span>`;
+    button.innerHTML = `<strong>${song.title}</strong><span>${song.measure} · ${song.image ? song.barCount : song.bars.length} mesures</span>`;
     button.addEventListener('click', () => selectSong(song));
     document.getElementById('pieceList').appendChild(button);
   });
