@@ -42,3 +42,6 @@
 .score-sheet .playhead{stroke:#cf4c3f;stroke-width:2;opacity:.85;pointer-events:none}
 @media(max-width:780px){.page-nav{margin:-12px 0 18px}.songs-layout{grid-template-columns:1fr}.piece-list{display:flex;overflow-x:auto}.piece-choice{min-width:130px}.piece-panel{padding:12px}.player-controls{width:100%}.score-sheet{width:920px}}
 @media(max-width:480px){.page-tab{padding:8px 11px;font-size:11px}.songs-heading{margin-bottom:14px}.piece-title h2{font-size:19px}.player-controls{gap:6px}.tempo-control{flex:1;grid-template-columns:auto minmax(60px,1fr) auto}.player-button{font-size:10px;padding:8px}.score-sheet{width:900px}}
+.score-scroll{overflow-x:hidden}
+.score-sheet{width:100%;max-width:100%;height:auto}
+@media(max-width:780px){.piece-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));overflow:visible}.piece-choice{min-width:0}}

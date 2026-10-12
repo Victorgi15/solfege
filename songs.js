@@ -126,19 +126,21 @@
 
   function renderScore(song) {
     events = listEvents(song);
-    const systems = Math.ceil(song.bars.length / 4);
+    const compact = window.matchMedia('(max-width: 600px)').matches;
+    const measuresPerSystem = compact ? 1 : 4;
+    const systems = Math.ceil(song.bars.length / measuresPerSystem);
     const systemHeight = 180;
-    const width = 980;
-    const startX = 92;
-    const measureWidth = 216;
+    const width = compact ? 390 : 980;
+    const startX = compact ? 48 : 92;
+    const measureWidth = compact ? 310 : 216;
     const parts = [];
     const positions = [];
     let eventIndex = 0;
 
     for (let system = 0; system < systems; system++) {
       const top = 36 + system * systemHeight;
-      const startMeasure = system * 4;
-      const endMeasure = Math.min(startMeasure + 4, song.bars.length);
+      const startMeasure = system * measuresPerSystem;
+      const endMeasure = Math.min(startMeasure + measuresPerSystem, song.bars.length);
       const count = endMeasure - startMeasure;
       const lastX = startX + count * measureWidth;
       positions[system] = { top, startX, measureWidth };
@@ -319,6 +321,12 @@
     metronomeOn = !metronomeOn;
     metronomeButton.setAttribute('aria-pressed', String(metronomeOn));
     metronomeButton.textContent = metronomeOn ? 'Métronome actif' : 'Métronome inactif';
+  });
+
+  let scoreResizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(scoreResizeTimer);
+    scoreResizeTimer = setTimeout(() => renderScore(selectedSong), 120);
   });
 
   selectSong(songs[0]);
