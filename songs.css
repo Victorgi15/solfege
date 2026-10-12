@@ -45,4 +45,4 @@
 .score-scroll{overflow-x:hidden}
 .score-sheet{width:100%;max-width:100%;height:auto}
 @media(max-width:780px){.piece-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));overflow:visible}.piece-choice{min-width:0}}
-.score-image{display:block;width:100%;height:auto;background:#fff}.score-image[hidden],.score-sheet[hidden]{display:none!important}.piece-panel.image-only .player-controls,.piece-panel.image-only .play-status{display:none}.piece-panel.image-only .score-scroll{background:#fff}
+.score-image{display:block;width:100%;height:auto;background:#fff}.score-image[hidden],.score-sheet[hidden]{display:none!important}.view-mode-row{display:flex;align-items:center;justify-content:flex-end;gap:10px;margin:12px 0;color:var(--muted);font:10px 'DM Mono',monospace}.score-view-toggle{padding:7px 10px;font-size:10px}.score-view-toggle.selected{background:#a79aff22;border-color:#a79aff66;color:#d1caff}.play-status.count-in{display:grid;place-items:center;min-height:88px;color:var(--lime);font-size:34px;font-weight:800}
