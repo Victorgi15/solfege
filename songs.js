@@ -398,6 +398,9 @@
       svg.setAttribute('aria-hidden', 'false');
       renderScore(selectedSong);
     }
+    const nextViewLabel = rawView ? 'Voir la vue interactive' : 'Voir la partition originale';
+    scoreViewToggle.textContent = nextViewLabel;
+    scoreViewToggle.setAttribute('aria-label', nextViewLabel);
     scoreViewToggle.setAttribute('aria-pressed', String(!rawView));
     scoreViewToggle.classList.toggle('selected', !rawView);
   }
