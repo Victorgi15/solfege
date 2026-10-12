@@ -97,6 +97,7 @@
   };
   const svg = document.getElementById('scoreSheet');
   const scoreImage = document.getElementById('scoreImage');
+  const scoreScroll = document.getElementById('scoreScroll');
   const scoreViewToggle = document.getElementById('scoreViewToggle');
   const status = document.getElementById('playStatus');
   const tempoInput = document.getElementById('tempoSlider');
@@ -170,8 +171,11 @@
   }
 
   function renderScore(song) {
+    scoreScroll.dataset.view = 'interactive';
     svg.hidden = false;
+    svg.setAttribute('aria-hidden', 'false');
     document.getElementById('scoreImage').hidden = true;
+    scoreImage.setAttribute('aria-hidden', 'true');
     events = listEvents(song);
     const compact = window.matchMedia('(max-width: 600px)').matches;
     const measuresPerSystem = compact ? 1 : 4;
@@ -368,34 +372,34 @@
   function selectSong(song) {
     stopPlayback(true);
     selectedSong = song;
-    rawView = false;
-    scoreViewToggle.setAttribute('aria-pressed', 'false');
-    scoreViewToggle.textContent = 'Lecture interactive';
-    scoreViewToggle.classList.remove('selected');
     document.querySelectorAll('.piece-choice').forEach(button => button.classList.toggle('active', button.dataset.song === song.id));
     document.getElementById('pieceTitle').textContent = song.title;
     document.getElementById('pieceMeta').textContent = `${song.measure} · ${song.bars.length} mesures`;
     tempoInput.value = song.tempo;
     tempoOutput.value = `${song.tempo} BPM`;
-    renderScore(song);
+    showRawScore(false);
   }
 
   function showRawScore(showRaw) {
     rawView = showRaw;
+    scoreScroll.dataset.view = rawView ? 'original' : 'interactive';
     if (rawView) {
       if (playbackTimer) stopPlayback(false);
       scoreImage.src = encodeURI(selectedSong.image);
       scoreImage.alt = `Partition originale de ${selectedSong.title}`;
       scoreImage.hidden = false;
+      scoreImage.setAttribute('aria-hidden', 'false');
       svg.hidden = true;
+      svg.setAttribute('aria-hidden', 'true');
     } else {
       scoreImage.hidden = true;
+      scoreImage.setAttribute('aria-hidden', 'true');
       svg.hidden = false;
+      svg.setAttribute('aria-hidden', 'false');
       renderScore(selectedSong);
     }
-    scoreViewToggle.setAttribute('aria-pressed', String(rawView));
-    scoreViewToggle.textContent = rawView ? 'Partition originale' : 'Lecture interactive';
-    scoreViewToggle.classList.toggle('selected', rawView);
+    scoreViewToggle.setAttribute('aria-pressed', String(!rawView));
+    scoreViewToggle.classList.toggle('selected', !rawView);
   }
 
   songs.forEach(song => {
