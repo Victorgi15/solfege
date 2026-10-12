@@ -377,7 +377,7 @@
     document.getElementById('pieceMeta').textContent = `${song.measure} · ${song.bars.length} mesures`;
     tempoInput.value = song.tempo;
     tempoOutput.value = `${song.tempo} BPM`;
-    showRawScore(false);
+    showRawScore(true);
   }
 
   function showRawScore(showRaw) {
